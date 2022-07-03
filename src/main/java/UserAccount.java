@@ -84,33 +84,8 @@ public class UserAccount {
         }
         return uid;
     }
-    public void browseTopNews() throws SQLException {
-        Connection conn =
-                getConnection(Main.DB_URL, Main.USER,Main.PASS);
-        News.NewsTop(conn);
-        int nid = News.visitNews(conn);
-        UserHistory.addBrowseHistory(conn,nid,userName);
-    }
 
-    public void browseLatestNews() throws SQLException {
-        Connection conn =
-                getConnection(Main.DB_URL, Main.USER,Main.PASS);
-        News.NewsLatest(conn);
-        int nid = News.visitNews(conn);
-        UserHistory.addBrowseHistory(conn,nid,userName);
-    }
-    
-    public void browseNewsAuthor() {
-    }
-
-
-    public void comment(int news_id) throws SQLException {
-        Connection conn =
-                getConnection(Main.DB_URL, Main.USER,Main.PASS);
-        Comment.addComment(conn, userName,
-                news_id, getUID());
-    }
-
+    //===========Register Login Edit Related ======================
     public void register() throws SQLException {
         List<String> a = UserRegister.registerUser();
         this.setAll(a);
@@ -127,24 +102,86 @@ public class UserAccount {
         this.setAll(a);
     }
 
-    public void browseHistory() {
-        UserHistory.showBrowseHistory();
+
+    public void editAccount() throws SQLException {
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        UserLogin.UpdateUser(conn, userName,password);
     }
 
-    public void browseComment(){
-        UserHistory.showCommentHistory();
+    //=========================News Related ======================
+    public void browseTopNews() throws SQLException {
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        News.NewsTop(conn);
+        int nid = News.visitNews(conn);
+        UserHistory.addBrowseHistory(conn,nid,userName);
     }
 
-    public void editAccount() {
+    public void browseLatestNews() throws SQLException {
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        News.NewsLatest(conn);
+        int nid = News.visitNews(conn);
+        UserHistory.addBrowseHistory(conn,nid,userName);
     }
 
-
-    public void favoriteNews() {
+    public void browseNewsAuthor() throws SQLException{
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        News.NewsAuthor(conn);
+        int nid = News.visitNews(conn);
+        UserHistory.addBrowseHistory(conn,nid,userName);
     }
 
-    public void upvoteComment() {
+    public void favoriteNews() throws SQLException{
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        News.NewsLatest(conn);
+        int nid = News.visitNews(conn);
+        UserHistory.addBrowseHistory(conn,nid,userName);
+        UserFavorite.addFavorite(conn,nid, userName);
     }
 
-    public void deleteComment() {
+    //=========================Comment Related ======================
+    public void comment(int news_id) throws SQLException {
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        Comment.addComment(conn, userName,
+                news_id, getUID());
     }
+
+    public void upvoteComment() throws SQLException{
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        Comment.showAllComment(conn);
+        System.out.println("Which review id for Upvote: ");
+        Scanner myObj = new Scanner(System.in);
+        int rid = Integer.parseInt(myObj.nextLine());
+        Comment.VoteComment(conn,rid);
+    }
+
+    public void deleteComment() throws SQLException{
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        Comment.showAllComment(conn);
+        System.out.println("Which review id for delete: ");
+        Scanner myObj = new Scanner(System.in);
+        int rid = Integer.parseInt(myObj.nextLine());
+
+        Comment.deleteComment(conn,getUID(),rid);
+    }
+
+    public void browseHistory() throws SQLException{
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        UserHistory.showBrowseHistory(conn, userName);
+    }
+
+    public void browseComment() throws SQLException{
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        UserHistory.showCommentHistory(conn,userName);
+    }
+
 }

@@ -63,6 +63,73 @@ public class Main {
             UserAccount usr = new UserAccount();
             AdminAccount adm = new AdminAccount();
 
+            // Done
+            if (u == 1){
+                usr.register();
+                usr.login();
+            }
+
+            // Done
+            if (u == 2){
+                usr.login();
+                usr.editAccount();
+            }
+            // Done
+            if( u == 3){
+                usr.login();
+                usr.browseLatestNews();
+            }
+
+            // Done
+            if( u == 4){
+                usr.login();
+                usr.browseTopNews();
+            }
+
+            // Done
+            if( u == 5){
+                usr.login();
+                usr.browseNewsAuthor();
+            }
+
+            // Done
+            if( u ==6 ){
+                usr.login();
+                usr.favoriteNews();
+            }
+
+            // Done
+            if(u ==7 ){
+                usr.login();
+                usr.browseLatestNews();
+                System.out.println("Which News for Comments: ");
+                int news_id = Integer.parseInt(myObj.nextLine());
+                usr.comment(news_id);
+            }
+
+            // Done
+            if(u ==8){
+                usr.login();
+                usr.upvoteComment();
+            }
+
+            // Done
+            if(u ==9 ){
+                usr.login();
+                usr.deleteComment();
+            }
+
+
+            if(u == 10) {
+                usr.login();
+                usr.browseHistory();
+            }
+
+            if(u == 11) {
+                usr.login();
+                usr.browseComment();
+            }
+
             if(u == 12){
                 adm.login();
                 adm.addAds();
@@ -86,60 +153,6 @@ public class Main {
             if(u == 16){
                 adm.editNews();
             }
-
-            if (u == 1){
-                usr.register();
-                usr.login();
-            }
-            if (u == 2){
-                usr.login();
-                usr.editAccount();
-            }
-            if( u == 3){
-                usr.login();
-                usr.browseLatestNews();
-            }
-            if( u == 4){
-                usr.login();
-                usr.browseTopNews();
-            }
-            if( u == 5){
-                usr.login();
-                usr.browseNewsAuthor();
-            }
-            if( u ==6 ){
-                usr.login();
-                usr.favoriteNews();
-            }
-            if(u ==7 ){
-                usr.login();
-                usr.browseLatestNews();
-                System.out.println("Which News for Comments: ");
-                int news_id = Integer.parseInt(myObj.nextLine());
-                usr.comment(news_id);
-            }
-
-            if(u ==8){
-                usr.login();
-                usr.upvoteComment();
-            }
-
-            if(u ==9 ){
-                usr.login();
-                usr.deleteComment();
-            }
-
-            if(u == 10) {
-                usr.login();
-                usr.browseHistory();
-            }
-
-            if(u == 11) {
-                usr.login();
-                usr.browseComment();
-            }
-
-
 
             //STEP 6: Clean-up environment
             rs.close();

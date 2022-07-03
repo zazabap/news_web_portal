@@ -42,7 +42,8 @@ public class UserRegister {
         Connection conn =
                 getConnection(Main.DB_URL, Main.USER,Main.PASS);
         PreparedStatement pstmt = conn.prepareStatement(
-                "INSERT into user_tbl(user_id,user_name,user_password,user_email,user_phone) " +
+                "INSERT into user_tbl(user_id,user_name,user_password," +
+                        "user_email,user_phone) " +
                         "values (?,?,?,?,?);");
 
         pstmt.setInt(1, 0);

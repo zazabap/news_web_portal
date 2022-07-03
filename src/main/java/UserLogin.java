@@ -114,4 +114,58 @@ public class UserLogin {
         pstmt.setInt(1, uid);
         pstmt.executeUpdate();
     }
+
+    public static void UpdateUser(Connection conn, String userName,
+    String password ) throws SQLException {
+
+        String sqlhit = "SELECT *" +
+                "  FROM user_tbl " +
+                "  WHERE user_name = ? and user_password = ?;";
+
+        PreparedStatement pstmt = conn.prepareStatement(sqlhit);
+
+        pstmt.setString(1, userName);
+        pstmt.setString(2, password);
+
+        ResultSet rs = pstmt.executeQuery();
+        ResultSetMetaData rsmd = rs.getMetaData();
+
+        System.out.println("""
+                What would you like to update?
+                1. userName
+                2. password 
+                3. email 
+                4. phone number
+                """);
+        Scanner myObj = new Scanner(System.in);
+        int u = Integer.parseInt(myObj.nextLine());
+        String edit = "";
+        if(u==1){
+          edit = "user_name=?";
+        }
+        if(u==2){
+            edit = "user_password=?";
+        }
+        if(u==3){
+            edit = "user_email=?";
+        }
+        if(u==4){
+            edit = "user_phone=?";
+        }
+        System.out.println("""
+                Its value? :
+                """);
+        // Did not add any value check
+        String v = myObj.nextLine();
+        String sqladd = "UPDATE user_tbl " +
+                "SET "+edit+" WHERE user_name=? and user_password=?;" ;
+
+        System.out.println(sqladd);
+        pstmt = conn.prepareStatement(sqladd);
+        pstmt.setString(1,
+                v);
+        pstmt.setString(2, userName);
+        pstmt.setString(3, password);
+        pstmt.executeUpdate();
+    }
 }

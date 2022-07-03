@@ -6,6 +6,9 @@ ALTER TABLE user_tbl
 ALTER TABLE review_tbl
     CHANGE review_id review_id INT NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE ad_tbl
+    CHANGE ad_id ad_id INT NOT NULL AUTO_INCREMENT;
+
 DELETE FROM review_tbl
     WHERE review_id = 1
 
@@ -89,6 +92,13 @@ FROM news_tbl
 GROUP BY news_author
 ORDER BY count(*) DESC LIMIT 10;
 
+/*
+ * Partial Search
+ */
+
+SELECT * FROM items WHERE items.xml LIKE '%123456%'
+SELECT * FROM news_tbl WHERE news_tbl.news_title LIKE 'Jiangnan'
+SELECT * FROM news_tbl WHERE news_tbl.news_title LIKE '%Jiangnan%'
 
 /*
  *  一些积累下来的问题

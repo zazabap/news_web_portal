@@ -49,12 +49,11 @@ public class Main {
                    
                     Admin:
                     =========Advertisement====================
-                    12 Login and set new Advertisement
+                    12 Login and add Advertisement
                     13 Login and get Advertisement based on type
                     ============News==========================
                     14 Login and add news
                     15 Login and delete news
-                    16 Login and edit news
                     """);
 
             System.out.println("Your Choice: ");
@@ -119,39 +118,39 @@ public class Main {
                 usr.deleteComment();
             }
 
-
+            // Done
             if(u == 10) {
                 usr.login();
                 usr.browseHistory();
             }
 
+            // Done
             if(u == 11) {
                 usr.login();
                 usr.browseComment();
             }
 
+            // Done
             if(u == 12){
                 adm.login();
                 adm.addAds();
             }
 
+            // Done
             if(u ==13){
                 adm.login();
                 adm.browseAds();
             }
-
+            // Done
             if(u == 14){
                 adm.login();
                 adm.addNews();
             }
 
+            // Done
             if(u == 15){
                 adm.login();
                 adm.deleteNews();
-            }
-
-            if(u == 16){
-                adm.editNews();
             }
 
             //STEP 6: Clean-up environment

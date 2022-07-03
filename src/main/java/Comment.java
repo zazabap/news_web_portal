@@ -5,7 +5,6 @@ public class Comment {
 
     public Comment(){
     }
-
     public static void showNewsComment(Connection conn,
                                        int news_id ) throws SQLException {
         String sqlstmt = "SELECT review_content, review_upvote_vol, " +

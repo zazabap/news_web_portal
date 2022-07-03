@@ -11,10 +11,66 @@ public class News {
         this.userName = usr.getUserName();
     }
 
-    public static void deleteNews(){
+    public static void searchNewsTitle(Connection conn, String title)
+    throws SQLException{
+
+        PreparedStatement prepStmt = null;
+
+        prepStmt = conn
+                .prepareStatement("SELECT * FROM news_tbl " +
+                        "WHERE news_tbl.news_title LIKE ?" );
+
+        prepStmt.setString(1, "%"+title+"%");
+
+        System.out.println("=======Search News==========");
+        System.out.println(prepStmt);
+
+        ResultSet rs = prepStmt.executeQuery();
+        // Try to debug first.
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+
+        while (rs.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) System.out.print(",  ");
+                String columnValue = rs.getString(i);
+                System.out.print(rsmd.getColumnName(i) + " " +columnValue );
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void deleteNews(Connection conn, int nid)
+            throws SQLException{
+
+        String del = "DELETE FROM news_tbl\n" +
+                "    WHERE news_id = ?";
+        PreparedStatement pstmt = conn.prepareStatement(del);
+        pstmt.setInt(1,nid);
+        pstmt.executeUpdate();
+
+        del = "DELETE FROM user_tbl\n" +
+                "    WHERE user_history_review = ?";
+        pstmt = conn.prepareStatement(del);
+        pstmt.setInt(1,nid);
+        pstmt.executeUpdate();
 
     }
-    public static void addNews(){
+    public static void addNews(Connection conn, String title,
+                               String author, String content) throws  SQLException{
+        PreparedStatement prepStmt = null;
+
+        prepStmt = conn
+                .prepareStatement("INSERT into news_tbl (" +
+                        "news_id, news_title, news_datetime, " +
+                        "news_author, news_content, news_hit_vol) "
+                        + "values (0, ?, now(), ? ,?, 0) ");
+        prepStmt.setString(1, title);
+        prepStmt.setString(2, author);
+        prepStmt.setString(3, content);
+        System.out.println("=======Add News==========");
+        System.out.println(prepStmt);
+        prepStmt.executeUpdate();
 
     }
 
@@ -163,12 +219,5 @@ public class News {
         pstmt.setInt(2, news_id);
         pstmt.executeUpdate();
     }
-
-    public void VoteNews(){
-
-    }
-
-
-
 
 }

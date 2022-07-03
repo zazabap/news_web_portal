@@ -32,6 +32,27 @@ public class UserAccount {
     public String getUserName() {
         return userName;
     }
+
+    public static String getUserName(Connection conn, int user_id) throws SQLException {
+        String uname = "";
+        String sqlstmt = "SELECT user_name" +
+                "  FROM user_tbl " +
+                "  WHERE user_id = ?;";
+
+        PreparedStatement pstmt = conn.prepareStatement(sqlstmt);
+        pstmt.setInt(1, user_id);
+        int uid = 0;
+        ResultSet rs = pstmt.executeQuery();
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+        while (rs.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) System.out.print(",  \n");
+                uname = rs.getString(i);
+            }
+        }
+        return uname;
+    }
     public String getPassword() {
         return password;
     }
@@ -63,14 +84,25 @@ public class UserAccount {
         }
         return uid;
     }
-    public void searchNews() throws SQLException {
+    public void browseTopNews() throws SQLException {
         Connection conn =
                 getConnection(Main.DB_URL, Main.USER,Main.PASS);
-        News.NewsLatest(conn);
         News.NewsTop(conn);
         int nid = News.visitNews(conn);
         UserHistory.addBrowseHistory(conn,nid,userName);
     }
+
+    public void browseLatestNews() throws SQLException {
+        Connection conn =
+                getConnection(Main.DB_URL, Main.USER,Main.PASS);
+        News.NewsLatest(conn);
+        int nid = News.visitNews(conn);
+        UserHistory.addBrowseHistory(conn,nid,userName);
+    }
+    
+    public void browseNewsAuthor() {
+    }
+
 
     public void comment(int news_id) throws SQLException {
         Connection conn =
@@ -95,11 +127,24 @@ public class UserAccount {
         this.setAll(a);
     }
 
-
-
-    public void searchComments() {
+    public void browseHistory() {
+        UserHistory.showBrowseHistory();
     }
 
-    public void searchHistory() {
+    public void browseComment(){
+        UserHistory.showCommentHistory();
+    }
+
+    public void editAccount() {
+    }
+
+
+    public void favoriteNews() {
+    }
+
+    public void upvoteComment() {
+    }
+
+    public void deleteComment() {
     }
 }

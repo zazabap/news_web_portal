@@ -16,7 +16,6 @@ public class Main {
         try{
             //STEP 2: Register JDBC driver
             //Class.forName("com.mysql.jdbc.Driver");
-
             //STEP 3: Open a connection
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -31,55 +30,116 @@ public class Main {
             System.out.println("Welcome to news website!");
             System.out.println("What would you like to do?");
             System.out.println("""
-                    Without Login:
-                    0 See Top News
                     User:
+                    ============Edit==========================
                     1 Create New User Account and Login
                     2 Login and Edit Name/Avatar
-                    3 Login and Search Top News
-                    ============News======================
-                    4 Login and Browse News base on Field
-                    5 Login and Browse News base on Topics
-                    6 Login and Browse News Comment
-                    7 Login and upvote downvote news
-                    8 Login and favorite share news
-                    ============News Comment=============
-                    9 Login and comments on news 
-                    10 Login and upvote downvote comments
-                    11 Login and delete comments
-                    12 Login and view comment history
-                    13 Login and view browse history
-                    
+                    ============News==========================
+                    3 Login and Browse Latest News
+                    4 Login and Browse Top Hit News 
+                    5 Login and Browse News base on Author
+                    6 Login and favorite share news
+                    ============Comment=======================
+                    7 Login and comments on news 
+                    8 Login and upvote downvote comments
+                    9 Login and delete comments
+                    ============History=======================
+                    10 Login and view comment history
+                    11 Login and view browse history
+                   
                     Admin:
-                    14 Login and set new Advertisement
-                    15 Login and get Advertisement based on type
-                    16 Login and add/edit/delete news
+                    =========Advertisement====================
+                    12 Login and set new Advertisement
+                    13 Login and get Advertisement based on type
+                    ============News==========================
+                    14 Login and add news
+                    15 Login and delete news
+                    16 Login and edit news
                     """);
 
             System.out.println("Your Choice: ");
             Scanner myObj = new Scanner(System.in);
             int u = Integer.parseInt(myObj.nextLine());
-
             UserAccount usr = new UserAccount();
+            AdminAccount adm = new AdminAccount();
+
+            if(u == 12){
+                adm.login();
+                adm.addAds();
+            }
+
+            if(u ==13){
+                adm.login();
+                adm.browseAds();
+            }
+
+            if(u == 14){
+                adm.login();
+                adm.addNews();
+            }
+
+            if(u == 15){
+                adm.login();
+                adm.deleteNews();
+            }
+
+            if(u == 16){
+                adm.editNews();
+            }
+
             if (u == 1){
                 usr.register();
                 usr.login();
             }
-            if (u > 1 & u<=13) {
+            if (u == 2){
                 usr.login();
-                if(u == 2){
-                    usr.setUserAccount();
-                }
-                if(u>=3 & u<=8){
-                    usr.searchNews();
-                }
-                if(u>=9 & u<=11){
-                    usr.searchComments();
-                }
-                if(u>11){
-                    usr.searchHistory();
-                }
+                usr.editAccount();
             }
+            if( u == 3){
+                usr.login();
+                usr.browseLatestNews();
+            }
+            if( u == 4){
+                usr.login();
+                usr.browseTopNews();
+            }
+            if( u == 5){
+                usr.login();
+                usr.browseNewsAuthor();
+            }
+            if( u ==6 ){
+                usr.login();
+                usr.favoriteNews();
+            }
+            if(u ==7 ){
+                usr.login();
+                usr.browseLatestNews();
+                System.out.println("Which News for Comments: ");
+                int news_id = Integer.parseInt(myObj.nextLine());
+                usr.comment(news_id);
+            }
+
+            if(u ==8){
+                usr.login();
+                usr.upvoteComment();
+            }
+
+            if(u ==9 ){
+                usr.login();
+                usr.deleteComment();
+            }
+
+            if(u == 10) {
+                usr.login();
+                usr.browseHistory();
+            }
+
+            if(u == 11) {
+                usr.login();
+                usr.browseComment();
+            }
+
+
 
             //STEP 6: Clean-up environment
             rs.close();

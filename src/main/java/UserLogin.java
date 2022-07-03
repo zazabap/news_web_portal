@@ -11,13 +11,11 @@ public class UserLogin {
         Connection conn;
         boolean connect = validateConn();
     }
-
     public static boolean validateConn() throws SQLException {
         Connection conn = getConnection(Main.DB_URL, Main.USER, Main.PASS);
         System.out.println("Successful Connection");
         return true;
     }
-
     public static boolean validateUser(String userName, String email)
             throws SQLException {
         Connection conn =
@@ -36,8 +34,6 @@ public class UserLogin {
         }
         return status;
     }
-
-
     public static List<String> LoginUser() throws SQLException {
         Connection conn =
                 getConnection(Main.DB_URL, Main.USER,Main.PASS);
@@ -70,8 +66,6 @@ public class UserLogin {
             System.out.println("User not found or Password not correct");
             return r;
         }
-
-
     }
 
     public static List<String> LoginUser(String userName, String password)

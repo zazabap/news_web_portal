@@ -1,10 +1,38 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Comment {
 
     public Comment(){
+    }
+
+    public static void showComment(Connection conn,
+                                       int news_id ) throws SQLException {
+        String sqlstmt = "SELECT review_content, review_upvote_vol, " +
+                "review_downvote_vol, user_id" +
+                "  FROM review_tbl " +
+                "  WHERE news_id = ?;";
+
+        PreparedStatement pstmt = conn.prepareStatement(sqlstmt);
+        pstmt.setInt(1,news_id);
+
+        ResultSet rs = pstmt.executeQuery();
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+
+        int count =1;
+        while (rs.next()) {
+            System.out.print("Review :" + count);
+            for (int i = 1; i <= columnsNumber-1; i++) {
+                if (i > 1) System.out.print(",");
+                String columnValue = rs.getString(i);
+                System.out.print(rsmd.getColumnName(i) + " " +columnValue );
+            }
+            //Add Commenter's name
+            String userName = UserAccount.getUserName(conn, rs.getInt(columnsNumber));
+            System.out.print( " " + userName );
+            System.out.println("");
+            count++;
+        }
     }
 
     public static void addComment(Connection conn,
@@ -12,31 +40,23 @@ public class Comment {
                                   int user_id)
     throws SQLException {
 
-        String sqlhit = "INSERT into review_tbl (" +
-                "user_id, news_id, review_content, " +
-                "review_datetime, review_upvote_vol, " +
-                "review_downvote_vol,) "
-                + "values (?, ?, ?, now(),0,0) ";
+        String sqlhit = "INSERT into review_tbl ( user_id, news_id, review_content," +
+                "review_datetime, review_upvote_vol, review_downvote_vol) " +
+                "values (?, ?, ?, now(),0,0)" ;
         PreparedStatement pstmt = conn.prepareStatement(sqlhit);
-        pstmt.setString(1, userName);
+        pstmt.setString(3, userName+"Comment");
         pstmt.setInt(2, news_id);
-        pstmt.setInt(3, user_id);
-
+        pstmt.setInt(1, user_id);
         pstmt.executeUpdate();
+        ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID()");
+        rs.next();
+        int rid = rs.getInt(1);
 
-        System.out.println("Add Comment");
-
-        sqlhit = "INSERT into user_tbl (" +
-                "user_name, user_history_review, user_last_login) "
-                + "values (?, ?, now()) ";
-        pstmt = conn.prepareStatement(sqlhit);
-        pstmt.setString(1, userName);
-        pstmt.setInt(2, news_id);
-        pstmt.executeUpdate();
-
-        System.out.println("Add Browse History");
-
+        System.out.println("Add Comment: " + rid);
+        UserHistory.addCommentHistory(conn, userName, rid);
     }
     public void VoteComment(){}
-    public void deleteComment(){}
+    public void deleteComment(){
+
+    }
 }

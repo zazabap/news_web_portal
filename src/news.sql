@@ -3,6 +3,12 @@ ALTER TABLE user_tbl
 ALTER TABLE user_tbl
     ADD COLUMN user_email VARCHAR(50) AFTER user_name;
 
+ALTER TABLE review_tbl
+    CHANGE review_id review_id INT NOT NULL AUTO_INCREMENT;
+
+DELETE FROM review_tbl
+    WHERE review_id = 1
+
 SELECT *
 FROM news_tbl
 WHERE news_hit_vol >100
@@ -28,10 +34,6 @@ CREATE TABLE person_tbl
 );
 
 
-/*
- This could be used for
- add favorite
-*/
 
 /*
 Group the news by author/field
@@ -39,3 +41,26 @@ Group the news by author/field
 
 SELECT name, COUNT(*) FROM   employee_tbl GROUP BY name;
 SELECT news_author, COUNT(*) FROM news_tbl GROUP BY news_author;
+
+
+/*
+ * Insert with output updated
+ *
+ */
+INSERT INTO table (name)
+    OUTPUT Inserted.ID
+VALUES('bob');
+
+INSERT into review_tbl ( user_id, news_id, review_content,
+                review_datetime, review_upvote_vol,
+                review_downvote_vol) values (1, 1, "www", now(),0,0);
+SELECT LAST_INSERT_ID();
+
+
+/*
+ *  一些积累下来的问题
+ *     1。 用多个表的情况下应该怎么处理
+ *     比如在展示评论的时候，增添了链接和新闻ID， 评论表里面有user_id
+ *     再吧user_id 单独拿出来用来在user_tbl 里面搜索可以吗？
+ *     还是有更便捷的方式
+ */

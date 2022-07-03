@@ -5,14 +5,17 @@ import static java.sql.DriverManager.getConnection;
 
 public class News {
     Connection conn;
-    public static void main(String[] args) throws SQLException {
-
-    }
     private String userName;
-
     public News(){}
     public News(UserAccount usr){
         this.userName = usr.getUserName();
+    }
+
+    public static void deleteNews(){
+
+    }
+    public static void addNews(){
+
     }
 
     public static void NewsLatest(Connection conn) throws SQLException {
@@ -87,6 +90,7 @@ public class News {
             System.out.println("");
         }
         hitNews(conn, s);
+        Comment.showComment(conn, s);
         return s;
     }
 
@@ -109,11 +113,11 @@ public class News {
         pstmt.setInt(1,
                 addHit);
         pstmt.setInt(2, news_id);
-        System.out.println(pstmt);
+//        System.out.println(pstmt);
         pstmt.executeUpdate();
     }
 
-    public void NewsComment(){
+    public void addFavoriteNews(Connection conn, int news_id){
 
     }
 
@@ -121,8 +125,7 @@ public class News {
 
     }
 
-    public void FavoriteNews(){
 
-    }
+
 
 }
